@@ -150,16 +150,7 @@ ios: $(IOS_PROJ_PATH)
 #  make iproj
 .PHONY: iproj
 iproj: $(IOS_PROJ_PATH)
-	@#   Check if Xcode should run in headless mode
-	@#     If CI=1, then just perform `make iproj`
-	@#       else, use `xed` to open the XCworkspace
-	@if [ $(CI) == 1 ]; then echo "make iproj CI=1.  Running in headless mode, skip opening .xcworkspace in Xcode.  To open Xcode use 'xed $(IOS_WORK_PATH)'"; else echo "make iproj. Opening MapLibre in Xcode using:  'xed $(IOS_WORK_PATH)'.  To skip opening Xcode, use 'make iproj CI=1'"; xed $(IOS_WORK_PATH);  fi;
-	@echo "## Xcode dependencies"
-	@xcodebuild -version
-	@uname -a
-	@sw_vers
-	@arch
-	@brew list --versions cmake ccache pkg-config glfw
+	xed $(IOS_WORK_PATH)
 
 .PHONY: ios-lint-plist
 ios-lint-plist:
@@ -283,6 +274,7 @@ $(MACOS_USER_DATA_PATH)/WorkspaceSettings.xcsettings: platform/macos/WorkspaceSe
 macos: $(MACOS_PROJ_PATH)
 	set -o pipefail && $(MACOS_XCODEBUILD) -scheme 'CI' build $(XCPRETTY)
 
+#  make xproj
 .PHONY: xproj
 xproj: $(MACOS_PROJ_PATH)
 	xed $(MACOS_WORK_PATH)
